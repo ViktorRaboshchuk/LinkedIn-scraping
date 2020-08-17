@@ -1,11 +1,11 @@
 import argparse, os, time
 import random
 import sqlite3
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup as bs
 import schedule
-import sys
 import csv
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementClickInterceptedException
@@ -119,36 +119,26 @@ def add_data_to_db(parsed_dict):
     for i in parsed_dict:
         link = i[0]
         text = i[1]
-        if len(text) > 85 and 'RECOMMENDATION' not in text and 'Став лайк, щоб допомогти закрити вакансію' not in text:
+        if len(text) > 105 and 'RECOMMENDATION' not in text and 'Став лайк, щоб допомогти закрити вакансію' not in text:
             print()
-            text_data = '%' + str(text.split('\n')[1]) + '%'
-            sql_data = c.execute('select * from vacancies where description like ?', (text_data,))
-            sql_data_ln = sql_data.fetchall()
-            print('sql_data length: ', len(sql_data_ln))
-            print('text ln: ', len(text))
+            print('LEN', len(text))
             if '¶' in text:
                 text = text.replace('¶', '- ')
             elif any(x in text for x in contacts):
-                if sql_data_ln == 0:
-                    print()
-                    print('OK')
-                    c.execute('INSERT into vacancies (description) values (?)', (text,))
-                    conn.commit()
-                    count += 1
-                else:
-                    print('Уже есть')
+                print()
+                print('OK')
+                c.execute('INSERT OR REPLACE into vacancies (description) values (?)', (text,))
+                conn.commit()
+                count += 1
             else:
-                if sql_data_ln == 0:
-                    print('OK2')
-                    shortener = Shortener(tokens=bitly_token, max_cache_size=8192)
-                    sleep(10)
-                    bit_ly_link = shortener.shorten_urls([link])
-                    description = '\nКонтакты: '.join([text, bit_ly_link[0]])
-                    c.execute('INSERT into vacancies (description) values (?)', (description,))
-                    conn.commit()
-                    count += 1
-                else:
-                    print('Уже есть')
+                print()
+                shortener = Shortener(tokens=bitly_token, max_cache_size=8192)
+                sleep(10)
+                bit_ly_link = shortener.shorten_urls([link])
+                description = '\nКонтакты: '.join([text, bit_ly_link[0]])
+                c.execute('INSERT OR REPLACE into vacancies (description) values (?)', (description,))
+                conn.commit()
+                count += 1
     conn.close()
     return count
     print('Add data to DB - done')
@@ -180,7 +170,7 @@ def job():
     post_on_channel(browser, count)
 
 
-schedule.every(10).minutes.do(job)
+schedule.every(2).hours.do(job)
 
 while True:
     schedule.run_pending()
