@@ -1,6 +1,7 @@
 selenium
-schedule
+schedule == 0.6.0
 time
+sys
 bitlyshortener
 sqlite3
 telegram
