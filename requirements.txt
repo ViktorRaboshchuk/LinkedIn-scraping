@@ -1,6 +1,5 @@
 selenium
 schedule == 0.6.0
-sys
 bitlyshortener
 sqlite3
 telegram
