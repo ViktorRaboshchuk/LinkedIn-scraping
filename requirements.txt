@@ -1,3 +1,4 @@
 selenium
 schedule == 0.6.0
 telegram
+colorama
