@@ -1,6 +1,5 @@
 selenium
 schedule
-sys
 time
 bitlyshortener
 sqlite3
