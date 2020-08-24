@@ -39,7 +39,7 @@ def tag_search(tags):
     print("success! Logged in, Bot starting")
     sleep(5)
     # Searching
-    search = browser.find_element_by_xpath('//input[@aria-label="Search"]')
+    search = browser.find_element_by_xpath('//input[@placeholder="Search"]')
     search.click()
     sleep(2)
     search.clear()
