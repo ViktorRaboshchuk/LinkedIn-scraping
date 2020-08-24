@@ -21,7 +21,7 @@ bitly_token = ['87560fe9b0f92d08b566103bf44591589c4e33c8']
 
 def tag_search(tags):
     # Logging
-    browser = webdriver.Chrome('chromedriver.exe')
+    browser = webdriver.Chrome('/chromedriver.exe')
     browser.get("https://www.linkedin.com")
     browser.maximize_window()
     browser.implicitly_wait(3)
