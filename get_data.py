@@ -112,7 +112,7 @@ def add_data_to_db(parsed_dict):
     count = 0
     contacts = ['Telegram','Skype','Phone','+38','tel','Tel','e-mail','E-mail','email','Email','@','скайпі','Cкайпі']
 
-    conn = sqlite3.connect('C:\sqlite\my_db.db')
+    conn = sqlite3.connect('my_db.db')
     c = conn.cursor()
 
 
